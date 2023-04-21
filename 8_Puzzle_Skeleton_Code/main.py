@@ -1,5 +1,5 @@
 from board import Board
-from agent import MT, CB, NA, a_star_search
+from agent import BF, MT, CB, NA, a_star_search
 import numpy as np
 import time
 
@@ -17,13 +17,8 @@ def main():
             ***********************************************
             '''
             print(board)
-            print("Misplaced Tiles: " + str(MT(board)))
-            print("City Block Distance: " + str(CB(board)))
-            print("Prioritize 123 Distance: " + str(NA(board)))
+            print(a_star_search(board,BF))
             
-
-
-
             end =  time.process_time()
             solution_cpu_time = end-start
 
