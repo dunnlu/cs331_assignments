@@ -38,6 +38,7 @@ def NA(board: Board) -> int:
             prioritize123+=1
     return prioritize123
 
+
 class Node:
     def __init__(self, myBoard: Board, myG: int, myH: int, myPreviousAction: str,myPath: List[str]):
         self.board = myBoard
@@ -82,7 +83,7 @@ def a_star_search(board: Board, heuristic: Callable[[Board], int]):
     heap = []
 
     #This defines the max number of nodes we are allowed to test before the function quits
-    Nmax = 10000
+    Nmax = 100000
     numberOfNodes = 0
 
     while(numberOfNodes<Nmax):
@@ -90,10 +91,10 @@ def a_star_search(board: Board, heuristic: Callable[[Board], int]):
 
         #If we have found a solution, return the path
         if (currentBoard.board.goal_test()):
-            print("Solution: \n",currentBoard.board)
+            # print("Solution: \n",currentBoard.board)
+            print("Solution Found")
             print("Number of Nodes: ", str(numberOfNodes))
-            print("Solution Length: ", str(currentBoard.g))
-            print("Solution : ",currentBoard.path)
+            # print("Solution : ",currentBoard.path)
             return currentBoard.path
         
         #Add Children to the heap
@@ -115,5 +116,5 @@ def a_star_search(board: Board, heuristic: Callable[[Board], int]):
         
 
     #If we reach Nmax nodes without finding a solution, print this statement
-    print("Failed to find solution in under 10,000 nodes")
+    print("Failed to find solution in under "+ str(Nmax) + " nodes")
     return []
