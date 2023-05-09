@@ -1,5 +1,5 @@
 from board import Board
-from agent import BF, MT, CB, NA, a_star_search
+from agent import BF, MT, CB, NA, NA2, a_star_search
 import numpy as np
 import time
 
@@ -20,7 +20,7 @@ def main():
             Solve the Board state here with A*
             ***********************************************
             '''
-            solution_string_array = a_star_search(board,NA)
+            solution_string_array = a_star_search(board,NA2)
 
             total_solution_length+= len(solution_string_array)
 

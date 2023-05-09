@@ -38,6 +38,15 @@ def NA(board: Board) -> int:
             prioritize123+=1
     return prioritize123
 
+#A Non-admissable heuristic that hates going left
+def NA2(board: Board) -> int:
+    children = board.next_action_states()
+    for child in children:
+        if (child[1]=="left"):
+            return 10
+    return 0
+
+
 
 class Node:
     def __init__(self, myBoard: Board, myG: int, myH: int, myPreviousAction: str,myPath: List[str]):
