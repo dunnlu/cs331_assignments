@@ -41,7 +41,7 @@ class AlphaBetaPlayer(Player):
     def __init__(self, symbol, eval_type, prune, max_depth):
         Player.__init__(self, symbol)
         self.eval_type = int(eval_type)
-        self.prune = prune
+        self.prune = int(prune)
         self.max_depth = int(max_depth) 
         self.max_depth_seen = 0
         self.total_nodes_seen = 0
@@ -95,10 +95,11 @@ class AlphaBetaPlayer(Player):
                 bestValue = tempValue
                 bestColumn = c
                 bestRow = r
-            if (bestValue >= beta): #we can prune this branch
-                return (bestValue,c,r) #this branch will be pruned
-            if (bestValue> alpha): #we have found a better move
-                alpha = bestValue
+            if (self.prune == 1):
+                if (bestValue >= beta): #we can prune this branch
+                    return (bestValue,c,r) #this branch will be pruned
+                if (bestValue> alpha): #we have found a better move
+                    alpha = bestValue
         return (bestValue,bestColumn,bestRow)
 
     #returns the utility value, column, and row of the opponents best move 
@@ -113,10 +114,11 @@ class AlphaBetaPlayer(Player):
             (tempValue,tempR,tempC) = self.max_value(newBoard,alpha,beta,depth+1)
             if (tempValue < oppBestValue):
                 oppBestValue = tempValue
-            if (oppBestValue <= alpha): #we can prune this branch
-                return oppBestValue #this branch will be pruned
-            if (oppBestValue < beta): #we have found a better move
-                beta = oppBestValue
+            if (self.prune == 1):
+                if (oppBestValue <= alpha): #we can prune this branch
+                    return oppBestValue #this branch will be pruned
+                if (oppBestValue < beta): #we have found a better move
+                    beta = oppBestValue
         return oppBestValue
 
 
