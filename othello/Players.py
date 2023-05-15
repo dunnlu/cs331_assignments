@@ -1,5 +1,4 @@
-from OthelloBoard import OthelloBoard 
-
+from OthelloBoard import OthelloBoard
 
 class Player:
     """Base player class"""
@@ -41,7 +40,7 @@ class AlphaBetaPlayer(Player):
     """
     def __init__(self, symbol, eval_type, prune, max_depth):
         Player.__init__(self, symbol)
-        self.eval_type = eval_type
+        self.eval_type = int(eval_type)
         self.prune = prune
         self.max_depth = int(max_depth) 
         self.max_depth_seen = 0
@@ -52,7 +51,7 @@ class AlphaBetaPlayer(Player):
             self.oppSym = 'X'
 
 
-    def terminal_state(self, board):
+    def terminal_state(self, board: OthelloBoard):
         # If either player can make a move, it's not a terminal state
         for c in range(board.cols):
             for r in range(board.rows):
@@ -61,7 +60,7 @@ class AlphaBetaPlayer(Player):
         return True 
 
 
-    def terminal_value(self, board):
+    def terminal_value(self, board: OthelloBoard):
         # Regardless of X or O, a win is float('inf')
         state = board.count_score(self.symbol) - board.count_score(self.oppSym)
         if state == 0:
@@ -82,7 +81,7 @@ class AlphaBetaPlayer(Player):
 
     #returns the utility value, column, and row of the best move 
     #symbol will always be self.symbol
-    def max_value(self,board,alpha,beta,depth): #returns (value,col,row) 
+    def max_value(self,board: OthelloBoard,alpha,beta,depth): #returns (value,col,row) 
         self.total_nodes_seen+=1
         if (not board.has_legal_moves_remaining(self.symbol) or depth == self.max_depth):
             return (self.eval_board(board), 0, 0) #returns the utility value and an arbitrary "move"
@@ -104,7 +103,7 @@ class AlphaBetaPlayer(Player):
 
     #returns the utility value, column, and row of the opponents best move 
     #symbol will always be self.oppSym
-    def min_value(self,board,alpha,beta,depth): #returns (value,col,row)
+    def min_value(self,board: OthelloBoard,alpha,beta,depth): #returns (value,col,row)
         self.total_nodes_seen+=1
         if (not board.has_legal_moves_remaining(self.oppSym) or depth == self.max_depth):
             return self.eval_board(board) #returns the utility value and an arbitrary "move"
@@ -121,7 +120,7 @@ class AlphaBetaPlayer(Player):
         return oppBestValue
 
 
-    def alphabeta(self, board):
+    def alphabeta(self, board: OthelloBoard):
         # Write minimax function here using eval_board and get_successors
         # type:(board) -> (int, int)
         col, row = 0, 0
@@ -131,11 +130,11 @@ class AlphaBetaPlayer(Player):
 
 
     """THIS IS THE BUGGY PART OF THE CODE"""
-    def eval_board(self, board):
+    def eval_board(self, board: OthelloBoard):
         # Write eval function here
         # type:(board) -> (float)
         value = 0
-        #print("My eval type: ", str(self.eval_type))
+        #print("My eval type: " +  str(self.eval_type) + " typeof evaltype: " + str(type(self.eval_type)))
         if (self.eval_type == 0): #Piece Difference
             #print("Calcing piece difference")
             myPieces = 0
@@ -189,7 +188,7 @@ class AlphaBetaPlayer(Player):
 
 
 
-    def get_successors(self, board, player_symbol):
+    def get_successors(self, board: OthelloBoard, player_symbol):
         # Write function that takes the current state and generates all successors obtained by legal moves
         # type:(board, player_symbol) -> (list)
         successors = [] #stores (board,column,row)
@@ -202,7 +201,7 @@ class AlphaBetaPlayer(Player):
         return successors 
 
 
-    def get_move(self, board):
+    def get_move(self, board: OthelloBoard):
         # Write function that returns a move (column, row) here using minimax
         # type:(board) -> (int, int)
 
