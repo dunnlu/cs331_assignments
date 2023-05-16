@@ -1,4 +1,5 @@
-Depth,Nodes,PruningMode,Heuristic2,85,0,0
+Depth,Nodes,PruningMode,Heuristic
+2,85,0,0
 2,121,0,1
 2,130,0,2
 2,65,1,0

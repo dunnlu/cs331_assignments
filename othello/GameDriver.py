@@ -87,8 +87,9 @@ class GameDriver:
         print("total nodes seen by p1", self.p1.total_nodes_seen)
         print("total nodes seen by p2", self.p2.total_nodes_seen)
 
-        with open('file.txt', 'a') as file:
-            file.write(str(self.p1.max_depth) + "," + str(self.p1.total_nodes_seen + self.p2.total_nodes_seen) + "," + str(self.p1.prune) + "," + str(self.p1.eval_type) + "\n")
+        '''To upload to the search vs depth file.csv'''
+        # with open('file.csv', 'a') as file:
+        #     file.write(str(self.p1.max_depth) + "," + str(self.p1.total_nodes_seen + self.p2.total_nodes_seen) + "," + str(self.p1.prune) + "," + str(self.p1.eval_type) + "\n")
 
 
 
