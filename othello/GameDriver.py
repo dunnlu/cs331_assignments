@@ -79,17 +79,17 @@ class GameDriver:
         state = self.board.count_score(self.p1.symbol) - self.board.count_score(self.p2.symbol)
         if( state == 0):
             print("Tie game!!")
-            with open('heuristicQuality.csv', 'a') as file:
-                file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",-1,-1\n")
+            # with open('heuristicQuality.csv', 'a') as file:
+            #     file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",-1,-1\n")
         elif state >0:
             print("Player 1 Wins!")
-            with open('heuristicQuality.csv', 'a') as file:
-                file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",1," + str(self.p1.eval_type) + "\n")
+            # with open('heuristicQuality.csv', 'a') as file:
+            #     file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",1," + str(self.p1.eval_type) + "\n")
         else:
             print("Player 2 Wins!")
             ''''''
-            with open('heuristicQuality.csv', 'a') as file:
-                file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",2," + str(self.p2.eval_type) + "\n")
+            # with open('heuristicQuality.csv', 'a') as file:
+            #     file.write(str(self.p1.max_depth) + "," + str(self.p1.eval_type) + "," + str(self.p2.eval_type) + ",2," + str(self.p2.eval_type) + "\n")
         print("turn count:", turn_count)
         print("total nodes seen by p1", self.p1.total_nodes_seen)
         print("total nodes seen by p2", self.p2.total_nodes_seen)
