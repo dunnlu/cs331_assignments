@@ -49,7 +49,7 @@ def vectorize_text(text, vocab):
             if vocab[i] in words:
                 vector[i] = 1
         
-        labels.append(int(line[len(line)-2]))
+        labels.append(line[len(line)-2])
         vectorized_text.append(vector)
     return vectorized_text, labels
 
@@ -82,7 +82,7 @@ def process(input_file,output_file):
         file.write(first_line)
         for i in range(n):
             feature_vector = [str(num) for num in vectorized_text[i]]
-            subsequent_line = ",".join(feature_vector) + "," + str(labels[i]) + "\n"
+            subsequent_line = ",".join(feature_vector) + "," + labels[i] + "\n"
             file.write(subsequent_line)
 
 
