@@ -3,6 +3,7 @@
 
 import string
 import re
+import unicodedata
 
 def process_text(text):
     """
@@ -11,6 +12,7 @@ def process_text(text):
     """
     translator = str.maketrans('','',string.punctuation) #create punctuation translator table
     preprocessed_text = text.translate(translator).lower()  #remove punctuation, then convert to lowercase
+    preprocessed_text = unicodedata.normalize('NFKD',preprocessed_text) #convert special characters to normal
     return preprocessed_text #a string with no punctuation, in all lowercase
 
 
@@ -75,7 +77,7 @@ def process(input_file,output_file):
     vectorized_text,labels = vectorize_text(pre_processed_text,vocab)
 
     n = len(labels)
-    with open(output_file,'w') as file:
+    with open(output_file,'w',encoding='utf-8') as file:
         first_line = ",".join(vocab) + ",classlabel\n" 
         file.write(first_line)
         for i in range(n):
