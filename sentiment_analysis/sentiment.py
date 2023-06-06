@@ -12,7 +12,8 @@ def process_text(text):
     """
     translator = str.maketrans('','',string.punctuation) #create punctuation translator table
     preprocessed_text = text.translate(translator).lower()  #remove punctuation, then convert to lowercase
-    preprocessed_text = unicodedata.normalize('NFKD',preprocessed_text) #convert special characters to normal
+    preprocessed_text = unicodedata.normalize('NFKD', preprocessed_text)  # Normalize using NFKD
+    preprocessed_text = ''.join(c for c in preprocessed_text if not unicodedata.combining(c))
     return preprocessed_text #a string with no punctuation, in all lowercase
 
 
@@ -68,7 +69,7 @@ def accuracy(predicted_labels, true_labels):
     return accuracy_score
 
 def process(input_file,output_file):
-    with open(input_file, 'r') as file:
+    with open(input_file, 'r',encoding='utf-8') as file:
         text = file.read()
     pre_processed_text = process_text(text)
 
