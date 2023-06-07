@@ -63,6 +63,9 @@ class BayesClassifier():
         vectors: [vector1, vector2, ...]
         predictions: [0, 1, ...]
         """
+        #There is a problem here, since the training vocab and test vocab are not equivalent, but the code assumes that they are
+        #We need to implement direchlet priors, and find the correct way to call the correct vocab word's word counts
+        
         predictions = [] #list of predictions
         for vector in vectors:
             # initialize probabilities
