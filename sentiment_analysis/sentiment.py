@@ -4,6 +4,7 @@
 import string
 import re
 import unicodedata
+from classifier import BayesClassifier
 
 def process_text(text):
     """
@@ -43,15 +44,15 @@ def vectorize_text(text, vocab):
     for line in lines:
         words = line.split()
         #create an array of size n
-        vector = [0 for i in range(n)]
+        vector = [0 for i in range(n)] #initialize the vector to all 0s
 
         #go through the vector and for each word, see if it is in the line, if so give it value 1
         for i in range(n):
             if vocab[i] in words:
-                vector[i] = 1
+                vector[i] = 1 
         
-        labels.append(line[len(line)-2])
-        vectorized_text.append(vector)
+        labels.append(line[len(line)-2]) #add the label to the list of labels
+        vectorized_text.append(vector) #add the vector to the list of vectors
     return vectorized_text, labels
 
 
@@ -71,27 +72,32 @@ def accuracy(predicted_labels, true_labels):
 def process(input_file,output_file):
     with open(input_file, 'r',encoding='utf-8') as file:
         text = file.read()
-    pre_processed_text = process_text(text)
+    pre_processed_text = process_text(text) #preprocess the text
 
-    vocab = build_vocab(pre_processed_text)
+    vocab = build_vocab(pre_processed_text) #build the vocab
 
-    vectorized_text,labels = vectorize_text(pre_processed_text,vocab)
+    vectorized_text,labels = vectorize_text(pre_processed_text,vocab) #vectorize the text
 
     n = len(labels)
-    with open(output_file,'w',encoding='utf-8') as file:
-        first_line = ",".join(vocab) + ",classlabel\n" 
+    with open(output_file,'w',encoding='utf-8') as file: #write the vectorized text to a file
+        first_line = ",".join(vocab) + ",classlabel\n" #first line is the vocab
         file.write(first_line)
         for i in range(n):
-            feature_vector = [str(num) for num in vectorized_text[i]]
-            subsequent_line = ",".join(feature_vector) + "," + labels[i] + "\n"
+            feature_vector = [str(num) for num in vectorized_text[i]] #convert the vector to a list of strings
+            subsequent_line = ",".join(feature_vector) + "," + labels[i] + "\n" #add the label to the end
             file.write(subsequent_line)
+
+    #train the classifier   
+    classifier = BayesClassifier()
+    classifier.train(vectorized_text, labels, vocab)
+    classifier.classify_text(vectorized_text, vocab)
+    return 1
 
 
 def main():
     # Take in text files and outputs sentiment scores
     process("trainingSet.txt","preprocessed_train.txt") #process training set and output to "preprocessed_train.txt"
     process("testSet.txt","preprocessed_test.txt") #process test set and output to "preprocessed_test.txt"
-    
 
     return 1
 
