@@ -51,9 +51,6 @@ class BayesClassifier():
         print("Positive sentences: ", self.percent_positive_sentences)
         print("Negative sentences: ", self.percent_negative_sentences)
 
-        #calculate percentages
-        self.percent_positive_sentences /= len(train_labels)
-        self.percent_negative_sentences /= len(train_labels)
 
         #print results
         print("Percent positive sentences: ", self.percent_positive_sentences)
@@ -85,8 +82,8 @@ class BayesClassifier():
             # calculate probabilities
             for i in range(len(vector)):
                 if vector[i] == 1: #if word is in sentence
-                        positive_probability *= self.postive_word_counts[vocab[i]]
-                        negative_probability *= self.negative_word_counts[vocab[i]]
+                        positive_probability += math.log(self.postive_word_counts[vocab[i]] / self.percent_positive_sentences)
+                        negative_probability += math.log(self.negative_word_counts[vocab[i]] / self.percent_negative_sentences)
             positive_probability += math.log(self.percent_positive_sentences) #multiply by positive sentence count
             negative_probability += math.log(self.percent_negative_sentences) #multiply by negative sentence count
             if positive_probability > negative_probability:
