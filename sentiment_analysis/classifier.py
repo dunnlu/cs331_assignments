@@ -31,14 +31,20 @@ class BayesClassifier():
             self.postive_word_counts[word] = 1
             self.negative_word_counts[word] = 1
 
+
+
+
         #count words
         for i in range(len(train_data)):
             for j in range(len(vocab)):
                 if train_data[i][j] == 1: #if word is in sentence
-                    if train_labels[i] == 1: #if sentence is positive
+                    if train_labels[i] == '1': #if sentence is positive
                         self.postive_word_counts[vocab[j]] += 1 #increment positive word count
                     else:
                         self.negative_word_counts[vocab[j]] += 1 #increment negative word count
+        
+        # for j in vocab:
+        #     print("Word " + j + " is in " + str(self.postive_word_counts[j]) + " positive sentences and " + str(self.negative_word_counts[j]) + " negative sentences")
 
         #count sentences
         train_labels = [int(i) for i in train_labels] #convert labels to ints
