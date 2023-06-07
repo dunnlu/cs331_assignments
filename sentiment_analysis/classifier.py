@@ -82,8 +82,8 @@ class BayesClassifier():
                 predictions.append(0)
 
             # print results
-            print("Positive probability: ", positive_probability)
-            print("Negative probability: ", negative_probability)
-            print("Prediction: ", predictions[-1])
+            #print("Positive probability: ", positive_probability)
+            #print("Negative probability: ", negative_probability)
+            #print("Prediction: ", predictions[-1])
         return predictions
     

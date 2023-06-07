@@ -63,8 +63,14 @@ def accuracy(predicted_labels, true_labels):
     return the accuracy of the predictions
     """
     accuracy_score = 0
-    for i,j in predicted_labels, true_labels:
-        if(i == j):
+    #for i,j in predicted_labels, true_labels:
+    #    if(i == j):
+    #        accuracy_score += 1
+
+    predicted_labels = [int(i) for i in predicted_labels]
+    true_labels = [int(i) for i in true_labels]
+    for i in range(len(predicted_labels)):
+        if(predicted_labels[i] == true_labels[i]):
             accuracy_score += 1
     accuracy_score /= len(predicted_labels)
     return accuracy_score
@@ -90,7 +96,10 @@ def process(input_file,output_file):
     #train the classifier   
     classifier = BayesClassifier()
     classifier.train(vectorized_text, labels, vocab)
-    classifier.classify_text(vectorized_text, vocab)
+    predicted_labels = classifier.classify_text(vectorized_text, vocab)
+    #print("Predicted labels: ", predicted_labels)
+    #print("True labels: ", labels)
+    print("Accuracy: ", accuracy(predicted_labels, labels))
     return 1
 
 
