@@ -93,20 +93,20 @@ def process(input_file,output_file):
             subsequent_line = ",".join(feature_vector) + "," + labels[i] + "\n" #add the label to the end
             file.write(subsequent_line)
 
-    #train the classifier   
-    classifier = BayesClassifier()
-    classifier.train(vectorized_text, labels, vocab)
-    predicted_labels = classifier.classify_text(vectorized_text, vocab)
-    #print("Predicted labels: ", predicted_labels)
-    #print("True labels: ", labels)
-    print("Accuracy: ", accuracy(predicted_labels, labels))
-    return 1
+    return vectorized_text, vocab, labels
 
 
 def main():
     # Take in text files and outputs sentiment scores
-    process("trainingSet.txt","preprocessed_train.txt") #process training set and output to "preprocessed_train.txt"
-    process("testSet.txt","preprocessed_test.txt") #process test set and output to "preprocessed_test.txt"
+    training_vectorized_text, training_vocab, training_labels = process("trainingSet.txt","preprocessed_train.txt") #process training set and output to "preprocessed_train.txt"
+    test_vectorized_text, test_vocab, test_labels = process("testSet.txt","preprocessed_test.txt") #process test set and output to "preprocessed_test.txt"
+
+    classifier = BayesClassifier()
+    classifier.train(training_vectorized_text, training_labels, training_vocab)
+    predicted_labels = classifier.classify_text(test_vectorized_text, test_vocab)
+    #print("Predicted labels: ", predicted_labels)
+    #print("True labels: ", labels)
+    print("Accuracy: ", accuracy(predicted_labels, test_labels))
 
     return 1
 
