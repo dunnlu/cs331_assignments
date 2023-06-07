@@ -103,10 +103,12 @@ def main():
 
     classifier = BayesClassifier()
     classifier.train(training_vectorized_text, training_labels, training_vocab)
-    predicted_labels = classifier.classify_text(test_vectorized_text, test_vocab)
+    training_predicted_labels = classifier.classify_text(training_vectorized_text, training_vocab)
+    test_predicted_labels = classifier.classify_text(test_vectorized_text, test_vocab)
     #print("Predicted labels: ", predicted_labels)
     #print("True labels: ", labels)
-    print("Accuracy: ", accuracy(predicted_labels, test_labels))
+    print("Training Accuracy: ", accuracy(training_predicted_labels, training_labels))
+    print("Test Accuracy: ", accuracy(test_predicted_labels, test_labels))
 
     return 1
 
