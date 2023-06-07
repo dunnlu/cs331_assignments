@@ -17,7 +17,7 @@ class BayesClassifier():
         self.myTrainingVocab = []
 
 
-    def train(self, train_data, train_labels, vocab):
+    def train(self, train_data, train_labels, vocab, percent_of_data = 1):
         """
         This function builds the word counts and sentence percentages used for classify_text
         train_data: vectorized text
@@ -27,12 +27,12 @@ class BayesClassifier():
 
         #print("Size before: ",len(train_labels))
         #set size of training data
-        percent_of_data = 1
 
-        if percent_of_data!=1:
+        if percent_of_data != 1:
             removed_elements = int((1-percent_of_data)*len(train_labels))
             train_data = train_data[:-removed_elements]
             train_labels = train_labels[:-removed_elements]
+        print("Percent of data: ", percent_of_data)
 
         #print("Size after: ",len(train_labels))
 
