@@ -32,12 +32,9 @@ class BayesClassifier():
             removed_elements = int((1-percent_of_data)*len(train_labels))
             train_data = train_data[:-removed_elements]
             train_labels = train_labels[:-removed_elements]
-        print("Percent of data: ", percent_of_data)
+        #print("Percent of data: ", percent_of_data)
 
         #print("Size after: ",len(train_labels))
-
-
-
 
         self.myTrainingVocab = vocab
 
@@ -60,6 +57,8 @@ class BayesClassifier():
         #     print("Word " + j + " is in " + str(self.postive_word_counts[j]) + " positive sentences and " + str(self.negative_word_counts[j]) + " negative sentences")
 
         #count sentences
+        self.percent_positive_sentences = 0
+        self.percent_negative_sentences = 0
         for i in range(len(train_labels)): #for each sentence
             if train_labels[i] == 1: #if sentence is positive
                 self.percent_positive_sentences += 1 #increment positive sentence count
@@ -73,7 +72,7 @@ class BayesClassifier():
         #print results
         #print("Percent positive sentences: ", self.percent_positive_sentences / len(train_labels))
         #print("Percent negative sentences: ", self.percent_negative_sentences / len(train_labels))
-        return 1
+        return len(train_labels)
 
 
     def classify_text(self, vectors, vocab):

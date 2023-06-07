@@ -102,13 +102,16 @@ def main():
     test_vectorized_text, test_vocab, test_labels = process("testSet.txt","preprocessed_test.txt") #process test set and output to "preprocessed_test.txt"
 
     classifier = BayesClassifier()
-    classifier.train(training_vectorized_text, training_labels, training_vocab)
-    training_predicted_labels = classifier.classify_text(training_vectorized_text, training_vocab)
-    test_predicted_labels = classifier.classify_text(test_vectorized_text, test_vocab)
-    #print("Predicted labels: ", predicted_labels)
-    #print("True labels: ", labels)
-    print("Training Accuracy: ", accuracy(training_predicted_labels, training_labels))
-    print("Test Accuracy: ", accuracy(test_predicted_labels, test_labels))
+    with open("sentiment.csv",'w',encoding='utf-8') as file: #write the vectorized text to a file
+        print("alpha,example size,test accuracy,training accuracy")
+        file.write("alpha,example size,test accuracy,training accuracy\n")
+        for i in range(1, 5):
+            example_size = classifier.train(training_vectorized_text, training_labels, training_vocab, .25*i)
+            training_predicted_labels = classifier.classify_text(training_vectorized_text, training_vocab)
+            test_predicted_labels = classifier.classify_text(test_vectorized_text, test_vocab)
+            print(i*.25, ",",example_size, ",", accuracy(training_predicted_labels, training_labels), ",", accuracy(test_predicted_labels, test_labels))
+            file.write(str(i*.25) + "," + str(example_size) + "," + str(accuracy(training_predicted_labels, training_labels)) + "," + str(accuracy(test_predicted_labels, test_labels)) + "\n")
+        
 
     return 1
 
