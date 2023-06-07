@@ -24,6 +24,21 @@ class BayesClassifier():
         train_labels: vectorized labels
         vocab: vocab from build_vocab
         """
+
+        #print("Size before: ",len(train_labels))
+        #set size of training data
+        percent_of_data = 1
+
+        if percent_of_data!=1:
+            removed_elements = int((1-percent_of_data)*len(train_labels))
+            train_data = train_data[:-removed_elements]
+            train_labels = train_labels[:-removed_elements]
+
+        #print("Size after: ",len(train_labels))
+
+
+
+
         self.myTrainingVocab = vocab
 
         #initialize word counts
