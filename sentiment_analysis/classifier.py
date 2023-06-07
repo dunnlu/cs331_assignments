@@ -1,5 +1,5 @@
 # This file implements a Naive Bayes Classifier
-
+import math
 
 class BayesClassifier():
     """
@@ -85,11 +85,10 @@ class BayesClassifier():
             # calculate probabilities
             for i in range(len(vector)):
                 if vector[i] == 1: #if word is in sentence
-                    if vocab[i] in self.postive_word_counts:
                         positive_probability *= self.postive_word_counts[vocab[i]]
                         negative_probability *= self.negative_word_counts[vocab[i]]
-            positive_probability *= self.percent_positive_sentences #multiply by positive sentence count
-            negative_probability *= self.percent_negative_sentences #multiply by negative sentence count
+            positive_probability += math.log(self.percent_positive_sentences) #multiply by positive sentence count
+            negative_probability += math.log(self.percent_negative_sentences) #multiply by negative sentence count
             if positive_probability > negative_probability:
                 predictions.append(1)
             else:
