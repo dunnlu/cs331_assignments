@@ -14,6 +14,7 @@ class BayesClassifier():
         self.percent_negative_sentences = 0
         self.file_length = 499
         self.file_sections = [self.file_length // 4, self.file_length // 3, self.file_length // 2]
+        self.myTrainingVocab = []
 
 
     def train(self, train_data, train_labels, vocab):
@@ -23,6 +24,8 @@ class BayesClassifier():
         train_labels: vectorized labels
         vocab: vocab from build_vocab
         """
+        self.myTrainingVocab = vocab
+
         #initialize word counts
         for word in vocab:
             self.postive_word_counts[word] = 1
@@ -65,7 +68,14 @@ class BayesClassifier():
         """
         #There is a problem here, since the training vocab and test vocab are not equivalent, but the code assumes that they are
         #We need to implement direchlet priors, and find the correct way to call the correct vocab word's word counts
-        
+
+        #direchlet priors
+        for word in vocab:
+            if not word in self.myTrainingVocab:
+                self.postive_word_counts[word] = 1
+                self.negative_word_counts[word] = 1
+
+
         predictions = [] #list of predictions
         for vector in vectors:
             # initialize probabilities
