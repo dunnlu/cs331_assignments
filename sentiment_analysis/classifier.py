@@ -92,20 +92,20 @@ class BayesClassifier():
         predictions = [] #list of predictions
         for vector in vectors:
             # initialize probabilities
-            positive_probability = 0
-            negative_probability = 0
+            positive_probability = 1
+            negative_probability = 1
 
-            positive_probability += math.log(self.percent_positive_sentences) #multiply by positive sentence count
-            negative_probability += math.log(self.percent_negative_sentences) #multiply by negative sentence count
+            positive_probability *= self.percent_positive_sentences #multiply by positive sentence count
+            negative_probability *= self.percent_negative_sentences #multiply by negative sentence count
 
             # calculate probabilities
             for i in range(len(vector)):
                 if vector[i] == 1: #if word is in sentence
-                    positive_probability += math.log(self.postive_word_counts[vocab[i]] / (self.percent_positive_sentences))
-                    negative_probability += math.log(self.negative_word_counts[vocab[i]] / (self.percent_negative_sentences))
+                    positive_probability *= self.postive_word_counts[vocab[i]] / (self.percent_positive_sentences)
+                    negative_probability *= self.negative_word_counts[vocab[i]] / (self.percent_negative_sentences)
                 if vector[i] == 0: 
-                    positive_probability += math.log((self.percent_positive_sentences - self.postive_word_counts[vocab[i]]) / (self.percent_positive_sentences))
-                    negative_probability += math.log((self.percent_negative_sentences - self.negative_word_counts[vocab[i]]) / (self.percent_negative_sentences))
+                    positive_probability *= (self.percent_positive_sentences - self.postive_word_counts[vocab[i]]) / (self.percent_positive_sentences)
+                    negative_probability *= (self.percent_negative_sentences - self.negative_word_counts[vocab[i]]) / (self.percent_negative_sentences)
 
             if positive_probability > negative_probability:
                 predictions.append(1)
