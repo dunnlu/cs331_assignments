@@ -12,7 +12,7 @@ class BayesClassifier():
         self.negative_word_counts = {}
         self.percent_positive_sentences = 0
         self.percent_negative_sentences = 0
-        self.file_length = 499
+        self.file_length = 998
         self.file_sections = [self.file_length // 4, self.file_length // 3, self.file_length // 2]
         self.myTrainingVocab = []
 
@@ -42,7 +42,6 @@ class BayesClassifier():
         for word in vocab:
             self.postive_word_counts[word] = 1
             self.negative_word_counts[word] = 1
-
         train_labels = [int(i) for i in train_labels] #convert labels to ints
         #count words
         for i in range(len(train_data)):
