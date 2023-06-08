@@ -25,18 +25,13 @@ class BayesClassifier():
         vocab: vocab from build_vocab
         """
 
-        #print("Size before: ",len(train_labels))
-        #set size of training data
-
+        #only use "percent_of_data" of the data
         if percent_of_data != 1:
-            removed_elements = int((1-percent_of_data)*len(train_labels))
-            train_data = train_data[:-removed_elements]
-            train_labels = train_labels[:-removed_elements]
-        #print("Percent of data: ", percent_of_data)
+            removed_elements = int((1-percent_of_data)*len(train_labels)) #number of elements to remove
+            train_data = train_data[:-removed_elements] #remove elements
+            train_labels = train_labels[:-removed_elements] #remove elements
 
-        #print("Size after: ",len(train_labels))
-
-        self.myTrainingVocab = vocab
+        self.myTrainingVocab = vocab #save vocab for classify_text
 
         #initialize word counts
         for word in vocab:
@@ -53,11 +48,8 @@ class BayesClassifier():
                     else:
                         self.negative_word_counts[vocab[j]] += 1 #increment negative word count
         
-        # for j in vocab:
-        #     print("Word " + j + " is in " + str(self.postive_word_counts[j]) + " positive sentences and " + str(self.negative_word_counts[j]) + " negative sentences")
-
         #count sentences
-        self.percent_positive_sentences = 0
+        self.percent_positive_sentences = 0 #reset sentence counts
         self.percent_negative_sentences = 0
         for i in range(len(train_labels)): #for each sentence
             if train_labels[i] == 1: #if sentence is positive
@@ -65,13 +57,7 @@ class BayesClassifier():
             else:
                 self.percent_negative_sentences += 1 #increment negative sentence count
 
-        #print("Positive sentences: ", self.percent_positive_sentences)
-        #print("Negative sentences: ", self.percent_negative_sentences)
-
-
-        #print results
-        #print("Percent positive sentences: ", self.percent_positive_sentences / len(train_labels))
-        #print("Percent negative sentences: ", self.percent_negative_sentences / len(train_labels))
+        #return the number of examples, for plotting purposes
         return len(train_labels)
 
 
@@ -80,42 +66,42 @@ class BayesClassifier():
         vectors: [vector1, vector2, ...]
         predictions: [0, 1, ...]
         """
-        #There is a problem here, since the training vocab and test vocab are not equivalent, but the code assumes that they are
-        #We need to implement direchlet priors, and find the correct way to call the correct vocab word's word counts
-
+        
         #direchlet priors
         for word in vocab:
-            if not word in self.myTrainingVocab:
+            if not word in self.myTrainingVocab: #if word is not in training vocab
                 self.postive_word_counts[word] = 1
                 self.negative_word_counts[word] = 1
 
 
         predictions = [] #list of predictions
         for vector in vectors:
-            # initialize probabilities
+            # initialize probabilities to 0
             positive_probability = 0
             negative_probability = 0
 
+            #working in log space, we add instead of multiply
             positive_probability += math.log(self.percent_positive_sentences) #multiply by positive sentence count
             negative_probability += math.log(self.percent_negative_sentences) #multiply by negative sentence count
 
             # calculate probabilities
             for i in range(len(vector)):
                 if vector[i] == 1: #if word is in sentence
-                    positive_probability += math.log(self.postive_word_counts[vocab[i]] / (self.percent_positive_sentences))
-                    negative_probability += math.log(self.negative_word_counts[vocab[i]] / (self.percent_negative_sentences))
-                if vector[i] == 0: 
-                    positive_probability += math.log((self.percent_positive_sentences - self.postive_word_counts[vocab[i]]) / (self.percent_positive_sentences))
-                    negative_probability += math.log((self.percent_negative_sentences - self.negative_word_counts[vocab[i]]) / (self.percent_negative_sentences))
+                    #P(word | positive)
+                    positive_probability += math.log(self.postive_word_counts[vocab[i]] / (self.percent_positive_sentences)) 
+                    #P(word | negative)
+                    negative_probability += math.log(self.negative_word_counts[vocab[i]] / (self.percent_negative_sentences)) 
+                else: #if word is not in sentence
+                    #P(not word | positive)
+                    positive_probability += math.log((self.percent_positive_sentences - self.postive_word_counts[vocab[i]]) / (self.percent_positive_sentences)) 
+                    #P(not word | negative)
+                    negative_probability += math.log((self.percent_negative_sentences - self.negative_word_counts[vocab[i]]) / (self.percent_negative_sentences)) 
 
-            if positive_probability > negative_probability:
+            # make prediction
+            if positive_probability > negative_probability: 
                 predictions.append(1)
             else:
                 predictions.append(0)
 
-            # print results
-            #print("Positive probability: ", positive_probability)
-            #print("Negative probability: ", negative_probability)
-            #print("Prediction: ", predictions[-1])
         return predictions
     
